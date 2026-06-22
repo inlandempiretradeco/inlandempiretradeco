@@ -98,3 +98,17 @@ export const giftSetBySlugQuery = groq`
     gender, includes, status, price, originalPrice, description, photos
   }
 `;
+
+export const watchesByBrandQuery = groq`
+  *[_type == "watch" && status != "sold" && lower(brand) == lower($brand)] | order(_createdAt asc) {
+    _id, _createdAt, brand, model, referenceNumber, "slug": slug.current,
+    condition, status, caseMaterial, caseSize, movement, price, photos, featured
+  }
+`;
+
+export const fragranceByBrandQuery = groq`
+  *[_type == "fragrance" && status != "sold" && lower(brand) == lower($brand)] | order(_createdAt asc) {
+    _id, _createdAt, brand, name, "slug": slug.current,
+    category, concentration, size, status, price, photos, featured
+  }
+`;
