@@ -17,10 +17,8 @@ type FeaturedItem = {
   kind: "watch" | "fragrance";
 };
 
-const S = {
-  monoLabel: { fontFamily: "var(--font-mono-ibm), ui-monospace, monospace", fontSize: 8.5, fontWeight: 300, letterSpacing: "0.42em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.2)" },
-  border: "1px solid rgba(255,255,255,0.06)",
-} as const;
+const mono = "font-mono text-[8.5px] font-light tracking-[0.42em] uppercase text-white/20";
+const border = { borderTop: "1px solid rgba(255,255,255,0.06)" } as const;
 
 export default async function HomePage() {
   let featured: { watches: FeaturedItem[]; fragrance: FeaturedItem[] } = { watches: [], fragrance: [] };
@@ -32,30 +30,28 @@ export default async function HomePage() {
       <Hero />
 
       {/* MANIFESTO */}
-      <section style={{ borderTop: S.border }}>
-        <div style={{ maxWidth: 1320, margin: "0 auto", padding: "160px 72px", display: "grid", gridTemplateColumns: "300px 1fr", gap: 100, alignItems: "start" }}>
+      <section style={border}>
+        <div className="max-w-[1320px] mx-auto px-6 py-20 lg:px-[72px] lg:py-40 grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-12 lg:gap-[100px]">
           <Reveal>
-            <div style={{ position: "sticky", top: 120 }}>
-              <p style={S.monoLabel}>The Operation</p>
-              <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: "clamp(2.2rem,3.2vw,3.2rem)", fontWeight: 400, lineHeight: 1.12, color: "#fff", marginTop: 18 }}>
-                Not a store.<br />A private<br />dealership.
-              </h2>
-              <div style={{ width: 32, height: 1, background: "rgba(255,255,255,0.12)", marginTop: 28 }} />
-            </div>
+            <p className={mono}>The Operation</p>
+            <h2 className="font-display text-[clamp(2rem,5vw,3.2rem)] font-light leading-[1.12] text-white mt-4">
+              Not a store.<br />A private<br />dealership.
+            </h2>
+            <div className="w-8 h-px bg-white/12 mt-7" />
           </Reveal>
           <Reveal delay={0.12}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+            <div className="space-y-6">
               {[
-                <>We run a lean operation out of Medical Lake, Washington. No showroom. No staff. Just a <strong style={{ fontWeight: 400, color: "rgba(255,255,255,0.75)" }}>carefully maintained inventory of watches and fragrance</strong> that Ramon sources, inspects, and ships himself.</>,
+                <>We run a lean operation out of Medical Lake, Washington. No showroom. No staff. Just a <strong className="font-normal text-white/75">carefully maintained inventory of watches and fragrance</strong> that Ramon sources, inspects, and ships himself.</>,
                 <>The range is honest: entry-level pieces starting around $25, investment-grade timepieces climbing past $3,000. New stock from authorized brand relationships alongside hand-picked consignment from private sellers. Whatever the price, every piece gets the same attention before it goes up.</>,
-                <>We <strong style={{ fontWeight: 400, color: "rgba(255,255,255,0.75)" }}>ship anywhere in the United States</strong>, fully insured and carefully packed. If something arrives and it's not what you expected, you call and we fix it. That's the whole model.</>,
+                <>We <strong className="font-normal text-white/75">ship anywhere in the United States</strong>, fully insured and carefully packed. If something arrives and it's not what you expected, you call and we fix it.</>,
                 <>If you have a question about a piece, call or text. Either way, you're talking to Ramon directly.</>,
               ].map((text, i) => (
-                <p key={i} style={{ fontSize: 16, fontWeight: 300, lineHeight: 2.05, color: "rgba(255,255,255,0.42)", marginBottom: i < 3 ? 24 : 0 }}>{text}</p>
+                <p key={i} className="text-[15px] font-light leading-[2.05] text-white/42">{text}</p>
               ))}
-              <div style={{ marginTop: 48, paddingTop: 36, borderTop: S.border }}>
-                <p style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: 21, fontStyle: "italic", fontWeight: 400, color: "rgba(255,255,255,0.7)" }}>Ramon J. Guel, MBA</p>
-                <p style={{ ...S.monoLabel, fontSize: 7.5, marginTop: 7 }}>Founder, Inland Empire Trading Co.</p>
+              <div className="mt-12 pt-9" style={border}>
+                <p className="font-display text-[21px] italic font-light text-white/70">Ramon J. Guel, MBA</p>
+                <p className={`${mono} mt-2`}>Founder, Inland Empire Trading Co.</p>
               </div>
             </div>
           </Reveal>
@@ -63,19 +59,19 @@ export default async function HomePage() {
       </section>
 
       {/* LOGISTICS */}
-      <div style={{ borderTop: S.border, borderBottom: S.border, background: "#0A0A0A" }}>
-        <div style={{ maxWidth: 1320, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 1, background: "rgba(255,255,255,0.05)" }}>
+      <div style={{ ...border, borderBottom: "1px solid rgba(255,255,255,0.06)", background: "#0A0A0A" }}>
+        <div className="max-w-[1320px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 1, background: "rgba(255,255,255,0.05)" }}>
             {[
               { n: "01", title: "Ships Nationwide", body: "We ship to all 50 states. Every order is carefully packed and fully insured. Watches ship with tracking and signature confirmation." },
               { n: "02", title: "Every Budget",     body: "Entry-level pieces from $25. Investment-grade timepieces past $3,000. New from authorized brands and pre-owned from private sellers." },
-              { n: "03", title: "Personal Service", body: "Call, text, or email and you get Ramon — not a support ticket. He can answer questions about any piece in the inventory, in detail." },
+              { n: "03", title: "Personal Service", body: "Call, text, or email and you get Ramon directly — not a support ticket. He can answer questions about any piece in the inventory." },
             ].map((item, i) => (
               <Reveal key={item.n} delay={i * 0.1}>
-                <div style={{ background: "#0A0A0A", padding: "52px 44px" }}>
-                  <p style={{ ...S.monoLabel, color: "rgba(200,168,75,0.4)", marginBottom: 18 }}>{item.n}</p>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: 24, fontWeight: 400, color: "#fff", marginBottom: 14 }}>{item.title}</h3>
-                  <p style={{ fontSize: 13, fontWeight: 300, lineHeight: 1.85, color: "rgba(255,255,255,0.32)" }}>{item.body}</p>
+                <div className="bg-[#0A0A0A] px-8 py-12 lg:px-11 lg:py-14">
+                  <p className={`${mono} text-[#C8A84B]/40 mb-4`}>{item.n}</p>
+                  <h3 className="font-display text-2xl font-light text-white mb-3">{item.title}</h3>
+                  <p className="text-[13px] font-light leading-[1.85] text-white/32">{item.body}</p>
                 </div>
               </Reveal>
             ))}
@@ -84,82 +80,79 @@ export default async function HomePage() {
       </div>
 
       {/* COLLECTION */}
-      <div style={{ borderTop: S.border }}>
-        <div style={{ padding: "22px 72px", display: "flex", justifyContent: "space-between", maxWidth: 1320, margin: "0 auto" }}>
-          <span style={S.monoLabel}>The Collection</span>
-          <span style={S.monoLabel}>Watches &nbsp;&nbsp; Fragrance &nbsp;&nbsp; Gift Sets</span>
+      <div style={border}>
+        <div className="max-w-[1320px] mx-auto px-6 py-5 lg:px-[72px] flex justify-between">
+          <span className={mono}>The Collection</span>
+          <span className={`${mono} hidden sm:block`}>Watches · Fragrance · Gift Sets</span>
         </div>
 
         {/* Panels */}
-        <div style={{ display: "grid", gridTemplateColumns: "58fr 42fr" }}>
+        <div className="grid grid-cols-1 lg:grid-cols-[58fr_42fr]" style={border}>
           {[
             { href: "/watches",   num: "I",  ghost: "W", title: "Timepieces", body: "New from authorized brands and consignment from private sellers. Automatic, quartz, and manual. Inspected before listing. Ships insured." },
             { href: "/fragrance", num: "II", ghost: "F", title: "Scent",       body: "Cologne and perfume from Creed, Tom Ford, Dior, Versace, Byredo, and more. EDT, EDP, and Parfum. Ships nationwide." },
           ].map((panel, i) => (
-            <Reveal key={panel.href} delay={i * 0.08}>
-              <Link href={panel.href} className="group" style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "flex-end", minHeight: "82vh", padding: 60, overflow: "hidden", background: i === 0 ? "#080808" : "#0C0C0C", borderRight: i === 0 ? S.border : undefined, borderTop: S.border, cursor: "pointer", transition: "background 0.55s" }}>
-                {/* Ghost letter */}
-                <span aria-hidden="true" style={{ position: "absolute", top: "-0.12em", left: "-0.03em", fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: "28vw", fontWeight: 300, lineHeight: 1, color: "rgba(255,255,255,0.025)", pointerEvents: "none", userSelect: "none", whiteSpace: "nowrap" }}>{panel.ghost}</span>
-                {/* Seal watermark */}
-                <svg aria-hidden="true" style={{ position: "absolute", top: "50%", right: -60, transform: "translateY(-50%)", width: 340, height: 340, opacity: 0.028, pointerEvents: "none" }} viewBox="0 0 100 100" fill="none">
-                  <circle cx="50" cy="50" r="47" stroke="#fff" strokeWidth="0.4"/>
-                  <circle cx="50" cy="50" r="40" stroke="#fff" strokeWidth="0.2"/>
-                  <text x="31" y="68" fontFamily="'Cormorant Garamond',Georgia,serif" fontSize="31" fill="#fff">E</text>
-                  <text x="19" y="70" fontFamily="'Cormorant Garamond',Georgia,serif" fontSize="44" fill="#fff">I</text>
-                </svg>
-                <div style={{ position: "relative", zIndex: 2 }}>
-                  <p style={{ ...S.monoLabel, marginBottom: 18 }}>{panel.num} / {panel.title === "Timepieces" ? "Watches" : "Fragrance"}</p>
-                  <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: "clamp(3rem,5vw,5rem)", fontWeight: 300, lineHeight: 0.93, color: "#fff" }}>{panel.title}</h2>
-                  <p style={{ fontSize: 13, fontWeight: 300, lineHeight: 1.85, color: "rgba(255,255,255,0.28)", maxWidth: 280, marginTop: 18 }}>{panel.body}</p>
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 32, fontFamily: "var(--font-mono-ibm),ui-monospace,monospace", fontSize: 9, fontWeight: 300, letterSpacing: "0.36em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)" }}>
-                    <div style={{ height: 1, width: 26, background: "currentColor" }} />
-                    Browse Collection
-                  </div>
+            <Link key={panel.href} href={panel.href}
+              className="relative flex flex-col justify-end overflow-hidden cursor-pointer transition-colors duration-500"
+              style={{ minHeight: "72vh", padding: "48px 40px", background: i === 0 ? "#080808" : "#0C0C0C", borderRight: i === 0 ? "1px solid rgba(255,255,255,0.06)" : undefined, borderTop: i === 1 ? "1px solid rgba(255,255,255,0.06)" : undefined }}
+            >
+              <span aria-hidden="true" className="absolute top-[-0.12em] left-[-0.03em] font-display font-light leading-none pointer-events-none select-none whitespace-nowrap text-white/[0.025]"
+                style={{ fontSize: "clamp(140px,28vw,400px)" }}>{panel.ghost}</span>
+              <div className="relative z-10">
+                <p className={`${mono} mb-4`}>{panel.num} / {panel.href === "/watches" ? "Watches" : "Fragrance"}</p>
+                <h2 className="font-display font-light text-white leading-[0.93]" style={{ fontSize: "clamp(2.8rem,5vw,5rem)" }}>{panel.title}</h2>
+                <p className="text-[13px] font-light leading-[1.85] text-white/28 mt-4 max-w-[280px]">{panel.body}</p>
+                <div className="flex items-center gap-3 mt-8 font-mono text-[9px] font-light tracking-[0.36em] uppercase text-white/40">
+                  <div className="h-px w-6 bg-current" />Browse Collection
                 </div>
-              </Link>
-            </Reveal>
+              </div>
+            </Link>
           ))}
         </div>
 
-        {/* Gift sets strip */}
-        <Link href="/gift-sets" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "52px 72px", borderTop: S.border, background: "#0A0A0A", cursor: "pointer", transition: "background 0.4s", textDecoration: "none" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 44 }}>
-            <span style={S.monoLabel}>III</span>
-            <h3 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: "clamp(2rem,3.2vw,3rem)", fontWeight: 300, color: "#fff" }}>Gift Sets</h3>
+        {/* Gift Sets strip */}
+        <Link href="/gift-sets"
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 px-6 py-10 lg:px-[72px] lg:py-[52px] cursor-pointer transition-colors"
+          style={{ borderTop: "1px solid rgba(255,255,255,0.06)", background: "#0A0A0A" }}
+        >
+          <div className="flex items-center gap-10">
+            <span className={mono}>III</span>
+            <h3 className="font-display font-light text-white" style={{ fontSize: "clamp(1.8rem,3.2vw,3rem)" }}>Gift Sets</h3>
           </div>
-          <p style={{ fontSize: 13, fontWeight: 300, lineHeight: 1.8, color: "rgba(255,255,255,0.28)", maxWidth: 360 }}>
-            Fragrance and body care, paired and ready. Versace, Calvin Klein, Marc Jacobs, Dior, and more. Men's and Women's.
+          <p className="text-[13px] font-light leading-[1.8] text-white/28 max-w-[360px]">
+            Fragrance and body care, paired and ready. Versace, Calvin Klein, Marc Jacobs, Dior, and more.
           </p>
-          <div style={{ fontFamily: "var(--font-mono-ibm),ui-monospace,monospace", fontSize: 9, fontWeight: 300, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.28)", display: "flex", alignItems: "center", gap: 14 }}>
-            Browse Sets
-            <div style={{ height: 1, width: 22, background: "currentColor" }} />
+          <div className="flex items-center gap-3 font-mono text-[9px] font-light tracking-[0.3em] uppercase text-white/28 whitespace-nowrap">
+            Browse Sets <div className="h-px w-5 bg-current" />
           </div>
         </Link>
       </div>
 
       {/* FEATURED */}
       {featuredItems.length > 0 && (
-        <section style={{ borderTop: S.border }}>
-          <div style={{ maxWidth: 1320, margin: "0 auto", padding: "100px 72px" }}>
+        <section style={border}>
+          <div className="max-w-[1320px] mx-auto px-6 py-16 lg:px-[72px] lg:py-24">
             <Reveal>
-              <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", borderBottom: S.border, paddingBottom: 24, marginBottom: 48 }}>
-                <p style={S.monoLabel}>Available Now</p>
-                <Link href="/watches" style={{ ...S.monoLabel, fontSize: 8 }}>All Pieces</Link>
+              <div className="flex items-baseline justify-between pb-6 mb-12" style={border}>
+                <p className={mono}>Available Now</p>
+                <Link href="/watches" className={`${mono} text-[8px]`}>All Pieces</Link>
               </div>
             </Reveal>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-4">
               {featuredItems.map((item, i) => (
                 <Reveal key={item._id} delay={i * 0.06}>
-                  <Link href={`/${item.kind === "watch" ? "watches" : "fragrance"}/${item.slug}`} style={{ display: "block" }}>
-                    <div style={{ position: "relative", aspectRatio: "1", overflow: "hidden", background: "#0D0D0D" }}>
+                  <Link href={`/${item.kind === "watch" ? "watches" : "fragrance"}/${item.slug}`} className="block group">
+                    <div className="relative aspect-square overflow-hidden bg-[#0D0D0D]">
                       {item.photos?.[0] && (
-                        <Image src={urlForImage(item.photos[0] as any).width(600).height(600).url()} alt={`${item.brand} ${item.model || item.name}`} fill sizes="25vw" style={{ objectFit: "cover" }} />
+                        <Image src={urlForImage(item.photos[0] as any).width(600).height(600).url()}
+                          alt={`${item.brand} ${item.model || item.name}`} fill sizes="(min-width:1024px) 25vw, 50vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-[1.05]" />
                       )}
                     </div>
-                    <div style={{ marginTop: 14, paddingLeft: 12, borderLeft: "1px solid rgba(255,255,255,0.1)" }}>
-                      <p style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(200,168,75,0.6)" }}>{item.brand}</p>
-                      <h3 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: 18, fontWeight: 400, color: "#fff", lineHeight: 1.2 }}>{item.model || item.name}</h3>
-                      <p style={{ fontFamily: "monospace", fontSize: 12, color: "#C8A84B", marginTop: 4 }}>{formatPrice(item.price)}</p>
+                    <div className="mt-3 pl-3" style={{ borderLeft: "1px solid rgba(255,255,255,0.1)" }}>
+                      <p className="font-mono text-[9px] tracking-[0.28em] uppercase text-[#C8A84B]/60">{item.brand}</p>
+                      <h3 className="font-display text-[17px] font-light text-white leading-tight">{item.model || item.name}</h3>
+                      <p className="font-mono text-[12px] text-[#C8A84B] mt-1">{formatPrice(item.price)}</p>
                     </div>
                   </Link>
                 </Reveal>
@@ -170,25 +163,25 @@ export default async function HomePage() {
       )}
 
       {/* TESTIMONIALS */}
-      <section style={{ borderTop: S.border }}>
-        <div style={{ maxWidth: 1320, margin: "0 auto", padding: "120px 72px" }}>
+      <section style={border}>
+        <div className="max-w-[1320px] mx-auto px-6 py-16 lg:px-[72px] lg:py-[120px]">
           <Reveal>
-            <div style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 64 }}>
-              <span style={S.monoLabel}>What People Say</span>
-              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.06)" }} />
+            <div className="flex items-center gap-6 mb-16">
+              <p className={mono}>What People Say</p>
+              <div className="flex-1 h-px bg-white/6" />
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 1, background: "rgba(255,255,255,0.05)" }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
             {[
               { quote: "Great and enthusiastic seller. Watches are in super good condition and exceeded my expectations.", author: "Jatanats" },
               { quote: "Bought a beautiful watch at a great price. Got my package right away. Will definitely be buying more.", author: "jem_mint10" },
               { quote: "Great seller and even better friend. Always a good experience and someone you can trust.", author: "pghplan91" },
             ].map((t, i) => (
               <Reveal key={t.author} delay={i * 0.1}>
-                <div style={{ background: "#080808", padding: "44px 36px" }}>
-                  <p style={{ color: "#C8A84B", fontSize: 11, letterSpacing: 3, marginBottom: 20 }}>★★★★★</p>
-                  <p style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: 18, fontStyle: "italic", fontWeight: 300, lineHeight: 1.7, color: "rgba(255,255,255,0.62)" }}>"{t.quote}"</p>
-                  <p style={{ ...S.monoLabel, fontSize: 8, marginTop: 24 }}>{t.author}</p>
+                <div className="bg-[#080808] p-8 lg:p-11">
+                  <p className="text-[#C8A84B] text-[11px] tracking-[3px] mb-5">★★★★★</p>
+                  <p className="font-display text-[17px] italic font-light leading-[1.7] text-white/62">"{t.quote}"</p>
+                  <p className={`${mono} text-[8px] mt-6`}>{t.author}</p>
                 </div>
               </Reveal>
             ))}
@@ -197,23 +190,23 @@ export default async function HomePage() {
       </section>
 
       {/* CTA */}
-      <section style={{ borderTop: S.border, background: "#0A0A0A", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "160px 72px", position: "relative", overflow: "hidden" }}>
-        <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 55% at 50% 50%, rgba(200,168,75,0.05), transparent 65%)", pointerEvents: "none" }} />
+      <section className="relative overflow-hidden flex flex-col items-center text-center px-6 py-24 lg:py-40" style={border}>
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 55% at 50% 50%, rgba(200,168,75,0.05), transparent 65%)" }} />
         <Reveal>
-          <svg style={{ width: 56, height: 56, opacity: 0.32, margin: "0 auto 28px" }} viewBox="0 0 100 100" fill="none">
+          <svg className="w-14 h-14 opacity-[0.32] mx-auto mb-7" viewBox="0 0 100 100" fill="none">
             <circle cx="50" cy="50" r="47" stroke="#C8A84B" strokeWidth="0.7"/>
             <circle cx="50" cy="50" r="40" stroke="#C8A84B" strokeWidth="0.35"/>
             <text x="31" y="68" fontFamily="'Cormorant Garamond',Georgia,serif" fontSize="31" fontWeight="400" fill="#C8A84B">E</text>
             <text x="19" y="70" fontFamily="'Cormorant Garamond',Georgia,serif" fontSize="44" fontWeight="400" fill="#C8A84B">I</text>
           </svg>
-          <p style={{ ...S.monoLabel, position: "relative", zIndex: 1 }}>By Inquiry Only</p>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: "clamp(2.4rem,4.5vw,4.4rem)", fontWeight: 300, lineHeight: 1.1, color: "#fff", maxWidth: 680, margin: "18px auto 0", position: "relative", zIndex: 1 }}>
+          <p className={mono}>By Inquiry Only</p>
+          <h2 className="font-display font-light text-white max-w-[680px] mx-auto mt-4" style={{ fontSize: "clamp(2.2rem,4.5vw,4.4rem)", lineHeight: 1.1 }}>
             Every sale begins<br />with a conversation.
           </h2>
-          <p style={{ fontSize: 15, fontWeight: 300, lineHeight: 1.95, color: "rgba(255,255,255,0.32)", maxWidth: 440, margin: "20px auto 0", position: "relative", zIndex: 1 }}>
-            No cart. No checkout. Reach out and Ramon responds personally. He'll walk you through the piece, answer your questions, and take care of everything from there.
+          <p className="text-[15px] font-light leading-[1.95] text-white/32 max-w-[440px] mx-auto mt-5">
+            No cart. No checkout. Reach out and Ramon responds personally — with full details on the piece and how to make it yours.
           </p>
-          <div style={{ marginTop: 48, position: "relative", zIndex: 1 }}>
+          <div className="mt-12">
             <ContactBar />
           </div>
         </Reveal>

@@ -14,43 +14,29 @@ export const metadata: Metadata = {
   description: "New and consignment timepieces available by inquiry. Browse by brand, condition, and movement. Ships anywhere in the US.",
 };
 
-const S = {
-  mono: { fontFamily: "var(--font-mono-ibm),ui-monospace,monospace", fontSize: 8.5, fontWeight: 300, letterSpacing: "0.42em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.2)" },
-  border: "1px solid rgba(255,255,255,0.06)",
-};
+const mono = "font-mono text-[8.5px] font-light tracking-[0.42em] uppercase text-white/20";
+const border = { borderTop: "1px solid rgba(255,255,255,0.06)" } as const;
 
 export default async function WatchesPage() {
   const watches: Watch[] = await client.fetch(allWatchesQuery, {}, { next: { revalidate } });
-
   return (
-    <div style={{ maxWidth: 1320, margin: "0 auto", padding: "80px 72px" }}>
-      {/* Page header */}
-      <div style={{ marginBottom: 64, paddingBottom: 48, borderBottom: S.border }}>
-        <p style={S.mono}>The Collection</p>
-        <h1 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: "clamp(3rem,6vw,5.5rem)", fontWeight: 300, lineHeight: 1, color: "#fff", marginTop: 16 }}>
-          Watches
-        </h1>
-        <p style={{ fontSize: 15, fontWeight: 300, lineHeight: 1.85, color: "rgba(255,255,255,0.36)", maxWidth: 480, marginTop: 16 }}>
-          New from authorized brands and consignment from private sellers. Every piece inspected before listing. Ships anywhere in the US, fully insured.
+    <div className="max-w-[1320px] mx-auto px-6 py-16 lg:px-[72px] lg:py-20">
+      <div className="pb-10 mb-16" style={border}>
+        <p className={mono}>The Collection</p>
+        <h1 className="font-display font-light text-white mt-4" style={{ fontSize: "clamp(2.8rem,6vw,5.5rem)", lineHeight: 1 }}>Watches</h1>
+        <p className="text-[15px] font-light leading-[1.85] text-white/36 max-w-[480px] mt-4">
+          New from authorized brands and consignment from private sellers. Every piece inspected. Ships anywhere in the US, fully insured.
         </p>
       </div>
-
-      {/* Catalog */}
-      <Suspense fallback={null}>
-        <WatchesCatalog watches={watches} />
-      </Suspense>
-
-      {/* Browse by brand */}
-      <div style={{ borderTop: S.border, marginTop: 100, paddingTop: 64 }}>
+      <Suspense fallback={null}><WatchesCatalog watches={watches} /></Suspense>
+      <div className="mt-20 pt-14" style={border}>
         <Reveal>
-          <p style={S.mono}>Browse by Brand</p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 2, marginTop: 28 }}>
+          <p className={mono}>Browse by Brand</p>
+          <div className="flex flex-wrap gap-2 mt-6">
             {watchBrands.map(brand => (
-              <Link
-                key={brand.slug}
-                href={`/watches/brands/${brand.slug}`}
-                style={{ padding: "14px 22px", border: S.border, background: "#0A0A0A", fontFamily: "var(--font-mono-ibm),ui-monospace,monospace", fontSize: 9, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.38)", transition: "all 0.2s", display: "block" }}
-              >
+              <Link key={brand.slug} href={`/watches/brands/${brand.slug}`}
+                className="px-4 py-3 font-mono text-[9px] tracking-[0.28em] uppercase text-white/38 transition-colors hover:text-white/75"
+                style={{ border: "1px solid rgba(255,255,255,0.06)", background: "#0A0A0A" }}>
                 {brand.name}
               </Link>
             ))}

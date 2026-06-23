@@ -34,9 +34,9 @@ export default async function WatchDetailPage({ params }: { params: { slug: stri
   const schema = { "@context": "https://schema.org", "@type": "Product", name: `${w.brand} ${w.model}`, brand: { "@type": "Brand", name: w.brand }, ...(w.price ? { offers: { "@type": "Offer", priceCurrency: "USD", price: w.price, availability: "https://schema.org/InStock" } } : {}) };
 
   return (
-    <div style={{ maxWidth: 1320, margin: "0 auto", padding: "80px 72px" }}>
+    <div style={{ className="max-w-[1320px] mx-auto px-6 py-14 lg:px-[72px] lg:py-20" }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+      <div style={{ className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start" }}>
         <Reveal>
           <div style={{ position: "relative", aspectRatio: "1", overflow: "hidden", background: "#0D0D0D", border: S.border }}>
             {w.photos?.[0] && (

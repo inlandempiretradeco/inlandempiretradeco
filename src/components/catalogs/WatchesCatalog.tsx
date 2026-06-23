@@ -77,7 +77,7 @@ export function WatchesCatalog({ watches }: { watches: Watch[] }) {
   }, [lotted, brands, conditions, movements, priceMin, priceMax, sort]);
 
   return (
-    <div className="grid grid-cols-1 gap-12 lg:grid-cols-[240px_1fr]">
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[220px_1fr]">
       <FilterPanel
         groups={[
           { key: "brand", label: "Brand", options: brandOptions, selected: brands, onChange: setBrands },

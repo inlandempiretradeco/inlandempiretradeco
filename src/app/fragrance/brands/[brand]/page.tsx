@@ -49,7 +49,7 @@ export default async function FragranceBrandPage({ params }: { params: { brand: 
   };
 
   return (
-    <div style={{ maxWidth: 1320, margin: "0 auto", padding: "80px 72px" }}>
+    <div className="max-w-[1320px] mx-auto px-6 py-14 lg:px-[72px] lg:py-20">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 
       {/* Breadcrumb */}
@@ -81,7 +81,7 @@ export default async function FragranceBrandPage({ params }: { params: { brand: 
                 <p style={{ ...S.mono, fontSize: 8 }}>{lotted.length} {lotted.length === 1 ? "piece" : "pieces"}</p>
               </div>
             </Reveal>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16 }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {lotted.map((f, i) => (
                 <Reveal key={f._id} delay={i * 0.06}>
                   <ProductCard

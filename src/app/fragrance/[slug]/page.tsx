@@ -30,8 +30,8 @@ export default async function FragranceDetailPage({ params }: { params: { slug: 
   const concLabel: Record<string, string> = { edt: "EDT", edp: "EDP", parfum: "Parfum / Extrait", edc: "Eau de Cologne" };
 
   return (
-    <div style={{ maxWidth: 1320, margin: "0 auto", padding: "80px 72px" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+    <div style={{ className="max-w-[1320px] mx-auto px-6 py-14 lg:px-[72px] lg:py-20" }}>
+      <div style={{ className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start" }}>
         <Reveal>
           <div style={{ position: "relative", aspectRatio: "1", overflow: "hidden", background: "#0D0D0D", border: S.border }}>
             {f.photos?.[0] && (

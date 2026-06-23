@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 
@@ -6,68 +7,47 @@ const PHONE_DISPLAY = process.env.NEXT_PUBLIC_BUSINESS_PHONE_DISPLAY || "(509) 9
 const PHONE        = process.env.NEXT_PUBLIC_BUSINESS_PHONE        || "+15099517165";
 
 export function Footer() {
-  const label = { fontFamily: "var(--font-mono-ibm), ui-monospace, monospace", fontSize: 7.5, fontWeight: 300, letterSpacing: "0.4em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.18)", marginBottom: 22, display: "block" };
-  const link  = { display: "block", fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.32)", marginBottom: 14, transition: "color 0.2s" };
-
   return (
     <footer style={{ borderTop: "1px solid rgba(255,255,255,0.06)", background: "#080808" }}>
-      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "80px 72px 64px", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 72 }}>
+      <div className="max-w-[1320px] mx-auto px-6 pt-14 pb-10 lg:px-[72px] lg:pt-20 lg:pb-16">
+        <div className="grid grid-cols-2 gap-10 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-[72px]">
 
-        <div>
-          <Logo variant="footer" />
-          <p style={{ fontSize: 13, fontWeight: 300, lineHeight: 2, color: "rgba(255,255,255,0.22)", maxWidth: 240, marginTop: 24 }}>
-            Watches, fragrance, and gift sets for every budget. Ships to all 50 states from Medical Lake, Washington.
-          </p>
-        </div>
+          <div className="col-span-2 lg:col-span-1">
+            <Logo variant="footer" />
+            <p className="text-[13px] font-light leading-[2] text-white/22 max-w-[240px] mt-6">
+              Watches, fragrance, and gift sets for every budget. Ships to all 50 states from Medical Lake, Washington.
+            </p>
+          </div>
 
-        <div>
-          <span style={label}>Catalog</span>
-          {[
-            { href: "/watches",   text: "Watches"   },
-            { href: "/fragrance", text: "Fragrance" },
-            { href: "/gift-sets", text: "Gift Sets" },
-            { href: "/about",     text: "About"     },
-          ].map(l => (
-            <Link key={l.href} href={l.href} style={link}
-              onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.75)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.32)")}
-            >{l.text}</Link>
-          ))}
-        </div>
+          <div>
+            <p className="font-mono text-[7.5px] font-light tracking-[0.4em] uppercase text-white/18 mb-5">Catalog</p>
+            {[{href:"/watches",text:"Watches"},{href:"/fragrance",text:"Fragrance"},{href:"/gift-sets",text:"Gift Sets"},{href:"/about",text:"About"}].map(l => (
+              <Link key={l.href} href={l.href} className="block text-[13px] font-light text-white/32 mb-3 hover:text-white/75 transition-colors">{l.text}</Link>
+            ))}
+          </div>
 
-        <div>
-          <span style={label}>Contact</span>
-          <a href={`tel:${PHONE}`} style={link}
-            onMouseEnter={e => (e.currentTarget.style.color = "#C8A84B")}
-            onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.32)")}
-          >{PHONE_DISPLAY}</a>
-          <a href={`mailto:${EMAIL}`} style={{ ...link, wordBreak: "break-all" }}
-            onMouseEnter={e => (e.currentTarget.style.color = "#C8A84B")}
-            onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.32)")}
-          >{EMAIL}</a>
-          <p style={{ fontSize: 12, fontWeight: 300, lineHeight: 1.9, color: "rgba(255,255,255,0.18)", marginTop: 4 }}>
-            322 E Grace St #362<br />Medical Lake, WA 99022
-          </p>
-        </div>
+          <div>
+            <p className="font-mono text-[7.5px] font-light tracking-[0.4em] uppercase text-white/18 mb-5">Contact</p>
+            <a href={`tel:${PHONE}`} className="block text-[13px] font-light text-white/32 mb-3 hover:text-[#C8A84B] transition-colors">{PHONE_DISPLAY}</a>
+            <a href={`mailto:${EMAIL}`} className="block text-[12px] font-light text-white/32 mb-3 hover:text-[#C8A84B] transition-colors break-all">{EMAIL}</a>
+            <p className="text-[12px] font-light leading-[1.9] text-white/18">322 E Grace St #362<br/>Medical Lake, WA 99022</p>
+          </div>
 
-        <div>
-          <span style={label}>Follow</span>
-          {[
-            { href: "https://www.instagram.com/inlandempiretc/",                  text: "Instagram" },
-            { href: "https://www.facebook.com/profile.php?id=61590087723571",     text: "Facebook"  },
-            { href: "https://www.tiktok.com/@ramon.guel",                         text: "TikTok"    },
-          ].map(l => (
-            <a key={l.href} href={l.href} target="_blank" rel="noreferrer" style={link}
-              onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.75)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.32)")}
-            >{l.text}</a>
-          ))}
+          <div>
+            <p className="font-mono text-[7.5px] font-light tracking-[0.4em] uppercase text-white/18 mb-5">Follow</p>
+            {[
+              {href:"https://www.instagram.com/inlandempiretc/",text:"Instagram"},
+              {href:"https://www.facebook.com/profile.php?id=61590087723571",text:"Facebook"},
+              {href:"https://www.tiktok.com/@ramon.guel",text:"TikTok"},
+            ].map(l => (
+              <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className="block text-[13px] font-light text-white/32 mb-3 hover:text-white/75 transition-colors">{l.text}</a>
+            ))}
+          </div>
         </div>
       </div>
-
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "22px 72px", maxWidth: 1320, margin: "0 auto" }}>
-        <p style={{ fontFamily: "var(--font-mono-ibm), ui-monospace, monospace", fontSize: 8, fontWeight: 300, letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(255,255,255,0.12)" }}>
-          {new Date().getFullYear()} Inland Empire Trading Co. &nbsp;&nbsp; Founded by Ramon J. Guel, MBA &nbsp;&nbsp; Medical Lake, WA
+      <div className="max-w-[1320px] mx-auto px-6 py-5 lg:px-[72px]" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+        <p className="font-mono text-[8px] font-light tracking-[0.24em] uppercase text-white/12">
+          {new Date().getFullYear()} Inland Empire Trading Co. · Founded by Ramon J. Guel, MBA · Medical Lake, WA
         </p>
       </div>
     </footer>
