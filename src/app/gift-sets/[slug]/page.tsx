@@ -18,49 +18,45 @@ export async function generateStaticParams() {
   return items.map(g => ({ slug: g.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const g: GiftSet | null = await client.fetch(giftSetBySlugQuery, { slug: params.slug });
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const g: GiftSet | null = await client.fetch(giftSetBySlugQuery, { slug });
   if (!g) return {};
   return { title: `${g.brand} ${g.name}`, description: g.description?.slice(0, 155) || `${g.brand} ${g.name} gift set — available by inquiry at Inland Empire Trading Co.` };
 }
 
-export default async function GiftSetDetailPage({ params }: { params: { slug: string } }) {
-  const g: GiftSet | null = await client.fetch(giftSetBySlugQuery, { slug: params.slug });
+export default async function GiftSetDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const g: GiftSet | null = await client.fetch(giftSetBySlugQuery, { slug });
   if (!g) notFound();
-
   return (
-    <div style={{ className="max-w-[1320px] mx-auto px-6 py-14 lg:px-[72px] lg:py-20" }}>
-      <div style={{ className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start" }}>
+    <div className="max-w-[1320px] mx-auto px-6 py-14 lg:px-[72px] lg:py-20">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start">
         <Reveal>
           <div style={{ position: "relative", aspectRatio: "1", overflow: "hidden", background: "#0D0D0D", border: S.border }}>
-            {g.photos?.[0] && (
-              <Image src={urlForImage(g.photos[0] as any).width(900).height(900).url()} alt={`${g.brand} ${g.name}`} fill priority style={{ objectFit: "cover" }} />
+            {g!.photos?.[0] && (
+              <Image src={urlForImage(g!.photos[0] as any).width(900).height(900).url()} alt={`${g!.brand} ${g!.name}`} fill priority style={{ objectFit: "cover" }} />
             )}
           </div>
         </Reveal>
         <Reveal delay={0.1}>
-          <p style={S.monoLabel}>{genderLabel[g.gender] || "Gift"} Set</p>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: "clamp(2.5rem,4vw,4rem)", fontWeight: 300, lineHeight: 1.05, color: "#fff", marginTop: 16 }}>
-            {g.brand} {g.name}
-          </h1>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginTop: 24 }}>
-            <p style={{ fontFamily: "var(--font-mono-ibm),ui-monospace,monospace", fontSize: 22, color: "#C8A84B" }}>{formatPrice(g.price)}</p>
-            {g.originalPrice && g.price && (
-              <p style={{ fontFamily: "monospace", fontSize: 14, color: "rgba(255,255,255,0.22)", textDecoration: "line-through" }}>{formatPrice(g.originalPrice)}</p>
+          <p style={S.monoLabel}>{genderLabel[g!.gender] || "Gift"} Set</p>
+          <h1 className="font-display font-light text-white mt-4" style={{ fontSize: "clamp(2.5rem,4vw,4rem)", lineHeight: 1.05 }}>{g!.brand} {g!.name}</h1>
+          <div className="flex items-baseline gap-4 mt-6">
+            <p className="font-mono text-[22px] text-[#C8A84B]">{formatPrice(g!.price)}</p>
+            {g!.originalPrice && g!.price && (
+              <p className="font-mono text-[14px] text-white/22 line-through">{formatPrice(g!.originalPrice)}</p>
             )}
           </div>
-
-          {g.includes && (
-            <div style={{ borderTop: S.border, borderBottom: S.border, padding: "24px 0", margin: "28px 0" }}>
+          {g!.includes && (
+            <div className="my-7 py-6" style={{ borderTop: S.border, borderBottom: S.border }}>
               <p style={S.monoLabel}>Includes</p>
-              <p style={{ fontSize: 14, fontWeight: 300, color: "rgba(255,255,255,0.65)", marginTop: 10 }}>{g.includes}</p>
+              <p className="text-[14px] font-light text-white/65 mt-2">{g!.includes}</p>
             </div>
           )}
-
-          {g.description && <p style={{ fontSize: 15, fontWeight: 300, lineHeight: 1.95, color: "rgba(255,255,255,0.42)", marginBottom: 32 }}>{g.description}</p>}
-
+          {g!.description && <p className="text-[15px] font-light leading-[1.95] text-white/42 mb-8">{g!.description}</p>}
           <p style={{ ...S.monoLabel, marginBottom: 16 }}>Inquire About This Set</p>
-          <ContactBar itemLabel={`${g.brand} ${g.name}`} />
+          <ContactBar itemLabel={`${g!.brand} ${g!.name}`} />
         </Reveal>
       </div>
     </div>

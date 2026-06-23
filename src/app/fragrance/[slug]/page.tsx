@@ -17,52 +17,47 @@ export async function generateStaticParams() {
   return items.map(f => ({ slug: f.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const f: Fragrance | null = await client.fetch(fragranceBySlugQuery, { slug: params.slug });
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const f: Fragrance | null = await client.fetch(fragranceBySlugQuery, { slug });
   if (!f) return {};
   return { title: `${f.brand} ${f.name}`, description: f.description?.slice(0, 155) || `${f.brand} ${f.name} — available by inquiry at Inland Empire Trading Co.` };
 }
 
-export default async function FragranceDetailPage({ params }: { params: { slug: string } }) {
-  const f: Fragrance | null = await client.fetch(fragranceBySlugQuery, { slug: params.slug });
+export default async function FragranceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const f: Fragrance | null = await client.fetch(fragranceBySlugQuery, { slug });
   if (!f) notFound();
-
   const concLabel: Record<string, string> = { edt: "EDT", edp: "EDP", parfum: "Parfum / Extrait", edc: "Eau de Cologne" };
-
   return (
-    <div style={{ className="max-w-[1320px] mx-auto px-6 py-14 lg:px-[72px] lg:py-20" }}>
-      <div style={{ className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start" }}>
+    <div className="max-w-[1320px] mx-auto px-6 py-14 lg:px-[72px] lg:py-20">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start">
         <Reveal>
           <div style={{ position: "relative", aspectRatio: "1", overflow: "hidden", background: "#0D0D0D", border: S.border }}>
-            {f.photos?.[0] && (
-              <Image src={urlForImage(f.photos[0] as any).width(900).height(900).url()} alt={`${f.brand} ${f.name}`} fill priority style={{ objectFit: "cover" }} />
+            {f!.photos?.[0] && (
+              <Image src={urlForImage(f!.photos[0] as any).width(900).height(900).url()} alt={`${f!.brand} ${f!.name}`} fill priority style={{ objectFit: "cover" }} />
             )}
           </div>
         </Reveal>
         <Reveal delay={0.1}>
-          <p style={S.monoLabel}>{f.category === "perfume" ? "Perfume" : "Cologne"}</p>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: "clamp(2.5rem,4vw,4rem)", fontWeight: 300, lineHeight: 1.05, color: "#fff", marginTop: 16 }}>
-            {f.brand} {f.name}
-          </h1>
-          <p style={{ fontFamily: "var(--font-mono-ibm),ui-monospace,monospace", fontSize: 22, color: "#C8A84B", marginTop: 24 }}>{formatPrice(f.price)}</p>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, borderTop: S.border, borderBottom: S.border, padding: "28px 0", margin: "32px 0" }}>
+          <p style={S.monoLabel}>{f!.category === "perfume" ? "Perfume" : "Cologne"}</p>
+          <h1 className="font-display font-light text-white mt-4" style={{ fontSize: "clamp(2.5rem,4vw,4rem)", lineHeight: 1.05 }}>{f!.brand} {f!.name}</h1>
+          <p className="font-mono text-[22px] text-[#C8A84B] mt-6">{formatPrice(f!.price)}</p>
+          <div className="grid grid-cols-2 gap-5 my-8 py-7" style={{ borderTop: S.border, borderBottom: S.border }}>
             {[
-              f.size          && { label: "Size",          value: f.size },
-              f.concentration && { label: "Concentration", value: concLabel[f.concentration] || f.concentration.toUpperCase() },
-              f.category      && { label: "Category",      value: f.category.charAt(0).toUpperCase() + f.category.slice(1) },
+              f!.size          && { label: "Size",          value: f!.size },
+              f!.concentration && { label: "Concentration", value: concLabel[f!.concentration] || f!.concentration.toUpperCase() },
+              f!.category      && { label: "Category",      value: f!.category.charAt(0).toUpperCase() + f!.category.slice(1) },
             ].filter(Boolean).map((item: any) => (
               <div key={item.label}>
                 <p style={S.monoLabel}>{item.label}</p>
-                <p style={{ fontSize: 14, fontWeight: 300, color: "rgba(255,255,255,0.65)", marginTop: 6 }}>{item.value}</p>
+                <p className="text-[14px] font-light text-white/65 mt-1.5">{item.value}</p>
               </div>
             ))}
           </div>
-
-          {f.description && <p style={{ fontSize: 15, fontWeight: 300, lineHeight: 1.95, color: "rgba(255,255,255,0.42)", marginBottom: 32 }}>{f.description}</p>}
-
+          {f!.description && <p className="text-[15px] font-light leading-[1.95] text-white/42 mb-8">{f!.description}</p>}
           <p style={{ ...S.monoLabel, marginBottom: 16 }}>Inquire About This Piece</p>
-          <ContactBar itemLabel={`${f.brand} ${f.name}`} />
+          <ContactBar itemLabel={`${f!.brand} ${f!.name}`} />
         </Reveal>
       </div>
     </div>
