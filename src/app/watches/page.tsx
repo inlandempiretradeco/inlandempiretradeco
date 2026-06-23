@@ -34,7 +34,7 @@ export default async function WatchesPage() {
           <p className={mono}>Browse by Brand</p>
           <div className="flex flex-wrap gap-2 mt-6">
             {watchBrands.map(brand => (
-              <Link key={brand.slug} href={`/watches/brands/${brand.slug}`}
+              <Link key={brand.slug} href={`/brands/watches/${brand.slug}`}
                 className="px-4 py-3 font-mono text-[9px] tracking-[0.28em] uppercase text-white/38 transition-colors hover:text-white/75"
                 style={{ border: "1px solid rgba(255,255,255,0.06)", background: "#0A0A0A" }}>
                 {brand.name}

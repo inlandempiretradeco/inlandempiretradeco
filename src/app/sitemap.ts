@@ -12,18 +12,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/watches`,   changeFrequency: "daily",   priority: 0.9 },
     { url: `${siteUrl}/fragrance`, changeFrequency: "daily",   priority: 0.9 },
     { url: `${siteUrl}/gift-sets`, changeFrequency: "daily",   priority: 0.8 },
+    { url: `${siteUrl}/brands`, changeFrequency: "monthly" as const, priority: 0.7 },
     { url: `${siteUrl}/about`,     changeFrequency: "monthly", priority: 0.5 },
   ];
 
   // Brand pages — always included even if no inventory yet
   const watchBrandRoutes: MetadataRoute.Sitemap = watchBrands.map(b => ({
-    url: `${siteUrl}/watches/brands/${b.slug}`,
+    url: `${siteUrl}/brands/watches/${b.slug}`,
     changeFrequency: "weekly" as const,
     priority: 0.75,
   }));
 
   const fragranceBrandRoutes: MetadataRoute.Sitemap = fragranceBrands.map(b => ({
-    url: `${siteUrl}/fragrance/brands/${b.slug}`,
+    url: `${siteUrl}/brands/fragrance/${b.slug}`,
     changeFrequency: "weekly" as const,
     priority: 0.75,
   }));

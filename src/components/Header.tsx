@@ -12,6 +12,7 @@ const NAV = [
   { href: "/watches",   label: "Watches"   },
   { href: "/fragrance", label: "Fragrance" },
   { href: "/gift-sets", label: "Gift Sets" },
+  { href: "/brands",   label: "Brands"    },
   { href: "/about",     label: "About"     },
 ];
 
