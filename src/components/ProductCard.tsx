@@ -75,7 +75,7 @@ export function ProductCard({ href, lotNumber, brand, title, meta, price, status
           {title}
         </h3>
         {meta && (
-          <p style={{ fontSize: 11, color: "rgba(255,255,255,0.28)", marginTop: 4, fontWeight: 300 }}>{meta}</p>
+          <p style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 4, fontWeight: 300 }}>{meta}</p>
         )}
         <p style={{ fontFamily: "monospace", fontSize: 13, color: "#C8A84B", marginTop: 12 }}>
           {formatPrice(price)}

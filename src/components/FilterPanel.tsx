@@ -16,7 +16,7 @@ type Props = {
   onClear: () => void; resultCount: number;
 };
 
-const mono = "font-mono text-[8.5px] font-light tracking-[0.38em] uppercase text-white/22";
+const mono = "font-mono text-[8.5px] font-light tracking-[0.38em] uppercase text-white/35";
 const inputCls = "w-full bg-transparent px-3 py-2 font-mono text-[12px] text-white outline-none";
 
 export function FilterPanel({ groups, priceMin, priceMax, onPriceMinChange, onPriceMaxChange, sort, onSortChange, onClear, resultCount }: Props) {
