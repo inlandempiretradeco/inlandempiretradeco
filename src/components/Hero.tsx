@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
+import { Seal } from "@/components/Seal";
 
 export function Hero() {
   const reduce = useReducedMotion();
@@ -48,7 +48,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 1.2, ease }}
           >
             New and consignment timepieces. Distinguished fragrance and gift sets.
-            Ships anywhere in the US. Priced for every budget.
+            Ships anywhere in the US. First watch or fortieth — we can help.
           </motion.p>
 
           <motion.div className="flex flex-col sm:flex-row gap-3 mt-9"
@@ -69,28 +69,22 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* ── Right: seal PNG via screen blend ── */}
+        {/* ── Right: seal ── */}
         <div className="hidden lg:flex relative items-center justify-center">
           {/* Ambient glow */}
-          <div className="absolute w-[480px] h-[480px] rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, rgba(200,168,75,0.08) 0%, transparent 70%)" }} />
-
-          {/* Actual designed seal — screen blend removes the black background */}
+          <div className="absolute rounded-full pointer-events-none"
+            style={{
+              width: 480, height: 480,
+              background: "radial-gradient(circle, rgba(200,168,75,0.07) 0%, transparent 70%)",
+            }}
+          />
           <motion.div
             className="relative z-10"
-            style={{ width: 320, height: 320, mixBlendMode: "screen" }}
             initial={reduce ? {} : { opacity: 0, scale: 1.25, rotate: -8, filter: "blur(10px)" }}
             animate={{ opacity: 1, scale: 1, rotate: 0, filter: "blur(0px)" }}
             transition={{ duration: 1.4, delay: 0.15, ease }}
           >
-            <Image
-              src="/seal-black.png"
-              alt="Inland Empire Trading Co. seal"
-              fill
-              sizes="320px"
-              style={{ objectFit: "contain" }}
-              priority
-            />
+            <Seal size={300} />
           </motion.div>
         </div>
       </div>

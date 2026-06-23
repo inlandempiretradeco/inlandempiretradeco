@@ -12,9 +12,8 @@ import { Reveal } from "@/components/ui/Reveal";
 export const revalidate = 60;
 export function generateStaticParams() { return allFragranceBrandSlugs; }
 
-export async function generateMetadata({ params }: { params: Promise<{ brand: string }> }): Promise<Metadata> {
-  const { brand: brandSlug } = await params;
-  const brand = getBrand(brandSlug, "fragrance");
+export async function generateMetadata({ params }: { params: { brand: string } }): Promise<Metadata> {
+  const brand = getBrand(params.brand, "fragrance");
   if (!brand) return {};
   return {
     title: `${brand.name} Fragrance`,
@@ -25,9 +24,8 @@ export async function generateMetadata({ params }: { params: Promise<{ brand: st
 const bdr  = { borderTop: "1px solid rgba(255,255,255,0.06)" } as const;
 const mono = "font-mono text-[8.5px] font-light tracking-[0.42em] uppercase text-white/35";
 
-export default async function FragranceBrandPage({ params }: { params: Promise<{ brand: string }> }) {
-  const { brand: brandSlug } = await params;
-  const brand = getBrand(brandSlug, "fragrance");
+export default async function FragranceBrandPage({ params }: { params: { brand: string } }) {
+  const brand = getBrand(params.brand, "fragrance");
   if (!brand) notFound();
 
   let items: Fragrance[] = [];
@@ -63,7 +61,6 @@ export default async function FragranceBrandPage({ params }: { params: Promise<{
           {[
             { label: "Founded",    value: brand.founded.toString() },
             { label: "Country",    value: brand.country },
-            { label: "Price Range",value: brand.priceRange },
             { label: "Known For",  value: brand.specialty },
           ].map(stat => (
             <div key={stat.label} className="bg-[#080808] px-5 py-6">

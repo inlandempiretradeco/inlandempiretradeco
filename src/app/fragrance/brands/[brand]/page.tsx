@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-export default async function OldFragranceBrandPage({ params }: { params: Promise<{ brand: string }> }) {
-  const { brand } = await params;
-  redirect(`/brands/fragrance/${brand}`);
+export default function OldFragranceBrandPage({ params }: { params: { brand: string } }) {
+  redirect(`/brands/fragrance/${params.brand}`);
 }

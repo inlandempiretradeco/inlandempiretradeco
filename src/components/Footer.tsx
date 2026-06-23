@@ -15,7 +15,7 @@ export function Footer() {
           <div className="col-span-2 lg:col-span-1">
             <Logo variant="footer" />
             <p className="text-[13px] font-light leading-[2] text-white/22 max-w-[240px] mt-6">
-              Watches, fragrance, and gift sets for every budget. Ships to all 50 states from Medical Lake, Washington.
+              From a first watch to a grail piece. Fragrance and gift sets for every occasion. Ships to all 50 states.
             </p>
           </div>
 

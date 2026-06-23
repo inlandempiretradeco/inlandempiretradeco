@@ -31,9 +31,7 @@ export default function AboutPage() {
               inspect, and ship ourselves.
             </p>
             <p className={body}>
-              The range is honest — entry-level pieces starting around $25, investment-grade
-              timepieces climbing past $3,000. New stock from authorized brand relationships
-              alongside hand-picked consignment from private sellers.
+              The range spans everything — a first watch for a teenager, a grail piece for a serious collector, a signature scent for any occasion. New stock from authorized brand relationships alongside hand-picked consignment from private sellers.
             </p>
             <p className={body}>
               We ship anywhere in the United States, fully insured and carefully packed.

@@ -54,7 +54,7 @@ export default async function HomePage() {
                 we source, inspect, and ship ourselves.
               </p>
               <p className={body}>
-                The range is honest — entry-level pieces starting around $25, investment-grade timepieces climbing past $3,000.
+                The range spans everything — a first watch for a teenager, a grail piece for a seasoned collector, a signature fragrance for any occasion.
                 New stock from authorized brand relationships alongside hand-picked consignment from private sellers.
                 Whatever the price, every piece gets the same attention before it goes up.
               </p>
@@ -84,7 +84,7 @@ export default async function HomePage() {
               { n: "01", title: "Ships Nationwide",
                 body: "We ship to all 50 states. Every order is carefully packed and fully insured. Watches ship with tracking and signature confirmation." },
               { n: "02", title: "Every Budget",
-                body: "Entry-level pieces from $25. Investment-grade timepieces past $3,000. New from authorized brands and pre-owned from private sellers." },
+                body: "From a first watch to a grail piece. New from authorized brands and pre-owned from private sellers. Whatever the occasion, we can find the right piece." },
               { n: "03", title: "Personal Service",
                 body: "Call, text, or email and you reach us directly — not a support ticket. We respond personally to every inquiry." },
             ].map((item, i) => (
