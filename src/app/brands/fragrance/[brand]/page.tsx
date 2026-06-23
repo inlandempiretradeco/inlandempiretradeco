@@ -12,8 +12,9 @@ import { Reveal } from "@/components/ui/Reveal";
 export const revalidate = 60;
 export function generateStaticParams() { return allFragranceBrandSlugs; }
 
-export async function generateMetadata({ params }: { params: { brand: string } }): Promise<Metadata> {
-  const brand = getBrand(params.brand, "fragrance");
+export async function generateMetadata({ params }: { params: Promise<{ brand: string }> }): Promise<Metadata> {
+  const { brand: brandSlug } = await params;
+  const brand = getBrand(brandSlug, "fragrance");
   if (!brand) return {};
   return {
     title: `${brand.name} Fragrance`,
@@ -24,44 +25,36 @@ export async function generateMetadata({ params }: { params: { brand: string } }
 const bdr  = { borderTop: "1px solid rgba(255,255,255,0.06)" } as const;
 const mono = "font-mono text-[8.5px] font-light tracking-[0.42em] uppercase text-white/35";
 
-export default async function FragranceBrandPage({ params }: { params: { brand: string } }) {
-  const brand = getBrand(params.brand, "fragrance");
+export default async function FragranceBrandPage({ params }: { params: Promise<{ brand: string }> }) {
+  const { brand: brandSlug } = await params;
+  const brand = getBrand(brandSlug, "fragrance");
   if (!brand) notFound();
 
   let items: Fragrance[] = [];
-  try { items = await client.fetch(fragranceByBrandQuery, { brand: brand.name }, { next: { revalidate } }); } catch {}
+  try { items = await client.fetch(fragranceByBrandQuery, { brand: brand!.name }, { next: { revalidate } }); } catch {}
   const lotted = withLotNumbers(items);
 
   return (
     <div className="max-w-[1320px] mx-auto px-6 py-14 lg:px-[72px] lg:py-20">
-
-      {/* Breadcrumb */}
       <div className="flex items-center gap-3 mb-12">
         <Link href="/brands" className={`${mono} text-[8px] hover:text-white/60 transition-colors`}>Brands</Link>
         <span className="text-white/15 text-[10px]">→</span>
         <Link href="/fragrance" className={`${mono} text-[8px] hover:text-white/60 transition-colors`}>Fragrance</Link>
         <span className="text-white/15 text-[10px]">→</span>
-        <span className={`${mono} text-[8px] text-white/50`}>{brand.name}</span>
+        <span className={`${mono} text-[8px] text-white/50`}>{brand!.name}</span>
       </div>
-
-      {/* Hero */}
       <Reveal>
-        <p className={mono}>{brand.specialty}</p>
-        <h1 className="font-display font-light text-white mt-3"
-          style={{ fontSize: "clamp(3.5rem,8vw,8rem)", lineHeight: 0.92, letterSpacing: "-0.02em" }}>
-          {brand.name}
-        </h1>
+        <p className={mono}>{brand!.specialty}</p>
+        <h1 className="font-display font-light text-white mt-3" style={{ fontSize: "clamp(3.5rem,8vw,8rem)", lineHeight: 0.92, letterSpacing: "-0.02em" }}>{brand!.name}</h1>
         <div className="w-10 h-px bg-white/15 mt-6 mb-6" />
-        <p className="text-[16px] font-light leading-[2] text-white/52 max-w-[680px]">{brand.blurb}</p>
+        <p className="text-[16px] font-light leading-[2] text-white/52 max-w-[680px]">{brand!.blurb}</p>
       </Reveal>
-
-      {/* Stats */}
       <Reveal delay={0.1}>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-px mt-12 bg-white/5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-px mt-12 bg-white/5">
           {[
-            { label: "Founded",    value: brand.founded.toString() },
-            { label: "Country",    value: brand.country },
-            { label: "Known For",  value: brand.specialty },
+            { label: "Founded", value: brand!.founded.toString() },
+            { label: "Country", value: brand!.country },
+            { label: "Known For", value: brand!.specialty },
           ].map(stat => (
             <div key={stat.label} className="bg-[#080808] px-5 py-6">
               <p className={mono}>{stat.label}</p>
@@ -70,38 +63,26 @@ export default async function FragranceBrandPage({ params }: { params: { brand: 
           ))}
         </div>
       </Reveal>
-
-      {/* Founder story */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mt-16 pt-12" style={bdr}>
         <Reveal>
           <p className={mono}>The Founder</p>
-          <h2 className="font-display text-[clamp(1.8rem,3vw,2.6rem)] font-light text-white mt-3 leading-[1.1]">
-            {brand.founderName}
-          </h2>
+          <h2 className="font-display text-[clamp(1.8rem,3vw,2.6rem)] font-light text-white mt-3 leading-[1.1]">{brand!.founderName}</h2>
           <div className="w-8 h-px bg-white/15 mt-5" />
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="text-[15px] font-light leading-[2] text-white/52">{brand.founderStory}</p>
+          <p className="text-[15px] font-light leading-[2] text-white/52">{brand!.founderStory}</p>
         </Reveal>
       </div>
-
-      {/* Notable */}
       <div className="mt-14 pt-12" style={bdr}>
         <Reveal>
           <p className={mono}>Notable Fragrances</p>
           <div className="flex flex-wrap gap-2 mt-5">
-            {brand.notableModels.map(model => (
-              <span key={model}
-                className="px-4 py-2.5 font-mono text-[9px] tracking-[0.28em] uppercase text-white/45 font-light"
-                style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
-                {model}
-              </span>
+            {brand!.notableModels.map(model => (
+              <span key={model} className="px-4 py-2.5 font-mono text-[9px] tracking-[0.28em] uppercase text-white/45 font-light" style={{ border: "1px solid rgba(255,255,255,0.1)" }}>{model}</span>
             ))}
           </div>
         </Reveal>
       </div>
-
-      {/* Inventory */}
       <div className="mt-14 pt-12" style={bdr}>
         {lotted.length > 0 ? (
           <>
@@ -114,12 +95,9 @@ export default async function FragranceBrandPage({ params }: { params: { brand: 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {lotted.map((f, i) => (
                 <Reveal key={f._id} delay={i * 0.06}>
-                  <ProductCard
-                    href={`/fragrance/${f.slug}`}
-                    lotNumber={f.lotNumber} brand={f.brand} title={f.name}
+                  <ProductCard href={`/fragrance/${f.slug}`} lotNumber={f.lotNumber} brand={f.brand} title={f.name}
                     meta={[f.size, f.concentration?.toUpperCase()].filter(Boolean).join(" · ")}
-                    price={f.price} status={f.status} photo={f.photos?.[0]}
-                  />
+                    price={f.price} status={f.status} photo={f.photos?.[0]} />
                 </Reveal>
               ))}
             </div>
@@ -127,30 +105,19 @@ export default async function FragranceBrandPage({ params }: { params: { brand: 
         ) : (
           <Reveal>
             <div className="py-16 text-center">
-              <p className="font-display text-[26px] font-light text-white/45 mb-4">
-                No {brand.name} in stock right now.
-              </p>
-              <p className="text-[14px] font-light text-white/32 max-w-[400px] mx-auto mb-10">
-                Inventory moves quickly. Reach out and we can source a specific fragrance for you.
-              </p>
-              <ContactBar itemLabel={`${brand.name} fragrance`} />
+              <p className="font-display text-[26px] font-light text-white/45 mb-4">No {brand!.name} in stock right now.</p>
+              <p className="text-[14px] font-light text-white/32 max-w-[400px] mx-auto mb-10">Reach out and we can source a specific fragrance for you.</p>
+              <ContactBar itemLabel={`${brand!.name} fragrance`} />
             </div>
           </Reveal>
         )}
       </div>
-
-      {/* Other brands */}
       <div className="mt-16 pt-12" style={bdr}>
         <Reveal>
           <p className={mono}>Other Fragrance Brands</p>
           <div className="flex flex-wrap gap-2 mt-5">
-            {fragranceBrands.filter(b => b.slug !== brand.slug).map(b => (
-              <Link key={b.slug} href={`/brands/fragrance/${b.slug}`}
-                className="px-4 py-3 font-mono text-[9px] tracking-[0.28em] uppercase
-                           text-white/35 transition-colors hover:text-white/70 font-light"
-                style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
-                {b.name}
-              </Link>
+            {fragranceBrands.filter(b => b.slug !== brand!.slug).map(b => (
+              <Link key={b.slug} href={`/brands/fragrance/${b.slug}`} className="px-4 py-3 font-mono text-[9px] tracking-[0.28em] uppercase text-white/35 transition-colors hover:text-white/70 font-light" style={{ border: "1px solid rgba(255,255,255,0.06)" }}>{b.name}</Link>
             ))}
           </div>
         </Reveal>
